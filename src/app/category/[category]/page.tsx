@@ -7,17 +7,17 @@ import { getCategories, getCategoryDataFromSlug } from "@/lib/queries";
 const POSTS_PER_PAGE = 5;
 
 export async function generateMetadata(props: {
-  params: Promise<{ tag: string }>;
+  params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const tag = decodeURI(params.tag);
+  const category = decodeURI(params.category);
   return genPageMetadata({
-    title: tag,
-    description: `${siteMetadata.title} ${tag} tagged content`,
+    title: category,
+    description: `${siteMetadata.title} ${category} tagged content`,
     alternates: {
       canonical: "./",
       types: {
-        "application/rss+xml": `${siteMetadata.siteUrl}/tags/${tag}/feed.xml`,
+        "application/rss+xml": `${siteMetadata.siteUrl}/category/${category}/feed.xml`,
       },
     },
   });
