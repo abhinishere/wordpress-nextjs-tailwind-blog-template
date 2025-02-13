@@ -85,6 +85,53 @@ export async function getCategoriesById(
   return categories;
 }
 
+export async function getCategoryDataFromSlug(
+  slug: string,
+  pageNumber: number = 1,
+  perPage = 10
+): Promise<{ category: Category; posts: Post[]; totalPages: number } | null> {
+  try {
+    const categoryEndpoint = `${baseUrl}/wp-json/wp/v2/categories?slug=${slug}`;
+    const categoryRes = await fetch(categoryEndpoint);
+
+    if (!categoryRes.ok) throw new Error("Failed to fetch category");
+
+    const categoryData: Category[] = await categoryRes.json();
+
+    if (categoryData.length === 0) {
+      console.error("Category not found");
+      return null;
+    }
+
+    const category = categoryData[0];
+    const categoryId = category.id;
+
+    const params = new URLSearchParams({
+      categories: categoryId.toString(),
+      per_page: perPage.toString(),
+      page: pageNumber.toString(),
+    });
+
+    const postsEndpoint = `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`;
+    const postsRes = await fetch(postsEndpoint);
+
+    if (!postsRes.ok) throw new Error("Failed to fetch posts");
+
+    const posts: Post[] = await postsRes.json();
+
+    const totalPages = parseInt(postsRes.headers.get("X-WP-TotalPages") ?? "1");
+
+    return {
+      category,
+      posts,
+      totalPages,
+    };
+  } catch (error) {
+    console.error("Error fetching category and posts:", error);
+    return null;
+  }
+}
+
 export async function getFeaturedMediaById(
   id: number
 ): Promise<MediaObject | null> {

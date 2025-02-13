@@ -4,8 +4,8 @@ import { getCategories } from "@/lib/queries";
 import Category from "@/components/category";
 
 export const metadata = genPageMetadata({
-  title: "Categories",
-  description: "Browse by categories or topics.",
+  title: "Category",
+  description: "Browse by a category or topic.",
 });
 
 export default async function CategoriesPage() {
@@ -15,7 +15,7 @@ export default async function CategoriesPage() {
       <div className="flex flex-col items-start justify-start divide-y divide-gray-200 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0 dark:divide-gray-700">
         <div className="space-x-2 pt-6 pb-8 md:space-y-5">
           <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:border-r-2 md:px-6 md:text-6xl md:leading-14 dark:text-gray-100">
-            Categories
+            Category
           </h1>
         </div>
         <div className="flex max-w-lg flex-wrap">
