@@ -18,7 +18,13 @@ function CategoriesList({ categories }: ICategoriesList) {
           <li key={c.id} className="my-3">
             {decodeURI(pathname.split("/category/")[1]) === c.slug ? (
               <h3 className="text-primary-500 inline px-3 py-2 text-sm font-bold uppercase">
-                {`${c.name} (${c.count})`}
+                <span
+                  className="pr-1"
+                  dangerouslySetInnerHTML={{
+                    __html: c.name,
+                  }}
+                ></span>
+                {`(${c.count})`}
               </h3>
             ) : (
               <Link
@@ -26,7 +32,13 @@ function CategoriesList({ categories }: ICategoriesList) {
                 className="hover:text-primary-500 dark:hover:text-primary-500 px-3 py-2 text-sm font-medium text-gray-500 uppercase dark:text-gray-300"
                 aria-label={`View posts tagged ${c.name}`}
               >
-                {`${c.name} (${c.count})`}
+                <span
+                  className="pr-1"
+                  dangerouslySetInnerHTML={{
+                    __html: c.name,
+                  }}
+                ></span>
+                {`(${c.count})`}
               </Link>
             )}
           </li>

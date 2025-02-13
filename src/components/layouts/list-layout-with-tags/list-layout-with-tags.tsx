@@ -25,10 +25,6 @@ export default function ListLayoutWithTags({
   initialDisplayPosts = [],
   pagination,
 }: ListLayoutProps) {
-  //   const tagCounts = tagData as Record<string, number>;
-  //   const tagKeys = Object.keys(tagCounts);
-  //   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
-
   const displayPosts =
     initialDisplayPosts.length > 0 ? initialDisplayPosts : posts;
 
