@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import Link from "@/components/Link";
 import PageTitle from "@/components/page-title";
 import SectionContainer from "@/components/section-container";
-import Category from "@/components/category";
 import siteMetadata from "@/config/site-metadata";
 import ScrollTopAndComment from "@/components/scroll-top-and-comment";
 import Image from "@/components/image";

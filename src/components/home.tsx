@@ -1,6 +1,6 @@
 import Link from "@/components/Link";
 import siteMetadata from "@/config/site-metadata";
-import { Category, Post } from "@/lib/types";
+import { Post } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import Categories from "./categories";
 import FeaturedMedia from "./featured-media";

@@ -26,9 +26,6 @@ export default async function Page(props: {
     return notFound();
   }
 
-  console.log(`length`);
-  console.log(posts.posts.length);
-
   const pagination = {
     currentPage: pageNumber,
     totalPages: posts.totalPages,

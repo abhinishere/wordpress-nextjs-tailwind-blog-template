@@ -1,8 +1,5 @@
 import Link from "next/link";
 import { getCategoriesById } from "@/lib/queries";
-interface Props {
-  text: string;
-}
 
 interface ICategories {
   categoriesIds: number[];

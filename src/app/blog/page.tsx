@@ -4,9 +4,10 @@ import { getAllPosts, getCategories } from "@/lib/queries";
 
 export const metadata = genPageMetadata({ title: "Blog" });
 
-export default async function BlogPage(props: {
-  searchParams: Promise<{ page: string }>;
-}) {
+export default async function BlogPage() {
+//   props: {
+//   searchParams: Promise<{ page: string }>;
+// }
   const currentPage = 1;
   const postPerPage = 15;
   const posts = await getAllPosts(currentPage, postPerPage);

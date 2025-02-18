@@ -35,7 +35,6 @@ export async function getAllPosts(
   }
 
   const endpoint = `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`;
-  console.log(endpoint);
 
   const res = await fetch(endpoint, {
     next: {
@@ -59,7 +58,7 @@ export async function getAllPostsReally(): Promise<{
   let allPosts: Post[] = [];
   let page: number = 1;
   let totalPages = 1;
-  let perPage = 100;
+  const perPage = 100;
 
   const params = new URLSearchParams({
     per_page: perPage.toString(),
@@ -147,7 +146,6 @@ export async function getCategoryDataFromSlug(
     const categoryData: Category[] = await categoryRes.json();
 
     if (categoryData.length === 0) {
-      console.error("Category not found");
       return null;
     }
 
@@ -155,7 +153,6 @@ export async function getCategoryDataFromSlug(
 
     return category;
   } catch (error) {
-    console.error("Error fetching category and posts:", error);
     return null;
   }
 }

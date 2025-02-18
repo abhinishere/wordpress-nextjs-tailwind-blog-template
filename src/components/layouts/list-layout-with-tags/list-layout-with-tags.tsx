@@ -1,5 +1,4 @@
 import Link from "@/components/Link";
-import siteMetadata from "@/config/site-metadata";
 import { Category, Post } from "@/lib/types";
 import Categories from "../../categories";
 import { formatDate } from "@/lib/utils";

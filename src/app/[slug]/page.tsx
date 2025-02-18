@@ -1,4 +1,3 @@
-import PostSimple from "@/components/layouts/post-layouts/post-layout";
 import { Metadata } from "next";
 import siteMetadata from "@/config/site-metadata";
 import { notFound } from "next/navigation";
@@ -10,6 +9,8 @@ import {
 } from "@/lib/queries";
 import PostLayout from "@/components/layouts/post-layouts/post-layout";
 import parser, { DOMNode, Element } from "html-react-parser";
+
+// const pageSlugs = ["about", "contact"];
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -68,9 +69,11 @@ export async function generateMetadata(props: {
 export const generateStaticParams = async () => {
   const allPosts = await getAllPostsReally();
 
-  return allPosts.allPosts.map((p) => ({
+  const allSlugs = allPosts.allPosts.map((p) => ({
     slug: p.slug,
   }));
+
+  return allSlugs;
 };
 
 export default async function Page(props: {
@@ -99,7 +102,7 @@ export default async function Page(props: {
     code: "relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-sm",
   };
 
-  const replace = (domNode: DOMNode, index: number): DOMNode | null => {
+  const replace = (domNode: DOMNode): DOMNode | null => {
     if (domNode.type === "tag" && "name" in domNode) {
       const element = domNode as Element;
       const className = mapping[element.name];
