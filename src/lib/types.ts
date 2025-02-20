@@ -30,6 +30,25 @@ export type Post = {
   featured_media: number;
 };
 
+export type Page = {
+  id: number;
+  title: {
+    rendered: string;
+  };
+  slug: string;
+  date: string;
+  modified: string;
+  content: {
+    rendered: string;
+  };
+  type: string;
+  status: string;
+  excerpt: {
+    rendered: string;
+  };
+  author: number;
+};
+
 type AvatarUrls = {
   24: string;
   48: string;

@@ -1,4 +1,4 @@
-import { Post, Category, Author, MediaObject } from "@/lib/types";
+import { Post, Category, Author, MediaObject, Page } from "@/lib/types";
 
 const baseUrl = process.env.WORDPRESS_URL;
 
@@ -104,6 +104,22 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const post = await res.json();
 
   return post[0];
+}
+
+export async function getPageBySlug(slug: string): Promise<Page | null> {
+  const endpoint = `${baseUrl}/wp-json/wp/v2/pages?slug=${slug}`;
+
+  const res = await fetch(endpoint, {
+    next: {
+      revalidate: revalidateTime,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch the page");
+
+  const page = await res.json();
+
+  return page[0] || null;
 }
 
 export async function getAuthorById(id: number): Promise<Author | null> {

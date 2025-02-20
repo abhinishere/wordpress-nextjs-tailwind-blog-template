@@ -10,8 +10,6 @@ import {
 import PostLayout from "@/components/layouts/post-layouts/post-layout";
 import parser, { DOMNode, Element } from "html-react-parser";
 
-// const pageSlugs = ["about", "contact"];
-
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata | undefined> {
