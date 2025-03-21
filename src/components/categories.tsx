@@ -13,7 +13,7 @@ export default async function Categories({ categoriesIds }: ICategories) {
       {categories?.map((category) => (
         <Link
           key={category.id}
-          href={`/categories/${category.slug}`}
+          href={`/category/${category.slug}`}
           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 mr-3 text-sm font-medium uppercase"
           dangerouslySetInnerHTML={{
             __html: category.name,

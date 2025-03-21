@@ -19,7 +19,7 @@ export default function PageLayout({ content, children }: LayoutProps) {
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
             <div className="">
-              <PageTitle>{title.rendered}</PageTitle>
+              <PageTitle title={title.rendered} />
             </div>
           </header>
 

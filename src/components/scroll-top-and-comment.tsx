@@ -1,6 +1,5 @@
 "use client";
 
-import siteMetadata from "@/config/site-metadata";
 import { useEffect, useState } from "react";
 
 const ScrollTopAndComment = () => {
@@ -19,16 +18,16 @@ const ScrollTopAndComment = () => {
   const handleScrollTop = () => {
     window.scrollTo({ top: 0 });
   };
-  const handleScrollToComment = () => {
-    document.getElementById("comment")?.scrollIntoView();
-  };
+  // const handleScrollToComment = () => {
+  //   document.getElementById("comment")?.scrollIntoView();
+  // };
   return (
     <div
       className={`fixed right-8 bottom-8 hidden flex-col gap-3 ${
         show ? "md:flex" : "md:hidden"
       }`}
     >
-      {siteMetadata.comments?.provider && (
+      {/* {siteMetadata.comments?.provider && (
         <button
           aria-label="Scroll To Comment"
           onClick={handleScrollToComment}
@@ -42,7 +41,7 @@ const ScrollTopAndComment = () => {
             />
           </svg>
         </button>
-      )}
+      )} */}
       <button
         aria-label="Scroll To Top"
         onClick={handleScrollTop}

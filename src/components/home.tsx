@@ -3,7 +3,7 @@ import siteMetadata from "@/config/site-metadata";
 import { Post } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import Categories from "./categories";
-import FeaturedMedia from "./featured-media";
+import ThumbnailMedia from "./thumbnail-media";
 
 const MAX_DISPLAY = 10;
 
@@ -32,7 +32,7 @@ export default function Home({ posts }: IHome) {
               <li key={slug} className="py-12">
                 <article>
                   <div className="space-y-4 xl:grid xl:grid-cols-4 xl:items-start xl:space-y-0 xl:space-x-4">
-                    <FeaturedMedia featuredMediaId={featured_media} />
+                    <ThumbnailMedia featuredMediaId={featured_media} />
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>

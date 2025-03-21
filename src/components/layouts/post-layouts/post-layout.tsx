@@ -7,6 +7,7 @@ import ScrollTopAndComment from "@/components/scroll-top-and-comment";
 import Image from "@/components/image";
 import { Author, Post } from "@/lib/types";
 import Categories from "@/components/categories";
+import FeaturedMedia from "@/components/featured-media";
 
 const discussUrl = (path: string) =>
   `https://mobile.twitter.com/search?q=${encodeURIComponent(
@@ -36,7 +37,7 @@ export default function PostLayout({
   children,
 }: LayoutProps) {
   //   const { filePath, path, slug, date, title, tags } = content;
-  const { slug, date, title, categories } = content;
+  const { slug, date, title, categories, featured_media } = content;
   const basePath = "blog";
 
   return (
@@ -45,7 +46,7 @@ export default function PostLayout({
       <article>
         <div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
           <header className="pt-6 xl:pb-6">
-            <div className="space-y-1 text-center">
+            <div className="space-y-1 text-center flex flex-col items-center">
               <dl className="space-y-10">
                 <div>
                   <dt className="sr-only">Published on</dt>
@@ -60,8 +61,9 @@ export default function PostLayout({
                 </div>
               </dl>
               <div>
-                <PageTitle>{title.rendered}</PageTitle>
+                <PageTitle title={title.rendered} />
               </div>
+              <FeaturedMedia mediaId={featured_media} />
             </div>
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0 dark:divide-gray-700">

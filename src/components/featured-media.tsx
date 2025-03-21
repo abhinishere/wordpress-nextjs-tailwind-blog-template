@@ -1,22 +1,22 @@
 import { getFeaturedMediaById } from "@/lib/queries";
 import Image from "next/image";
+import React from "react";
 
 interface IFeaturedMedia {
-  featuredMediaId: number;
+  mediaId: number;
 }
 
-async function FeaturedMedia({ featuredMediaId }: IFeaturedMedia) {
+async function FeaturedMedia({ mediaId }: IFeaturedMedia) {
   const featuredMedia =
-    featuredMediaId === 0 ? null : await getFeaturedMediaById(featuredMediaId);
-
+    mediaId === 0 ? null : await getFeaturedMediaById(mediaId);
   if (!featuredMedia) return <></>;
 
   return (
     <Image
       style={{ objectFit: "cover" }}
-      className="w-full h-full xl:w-[256px] xl:h-[166px] "
+      className="w-full h-full  xl:h-[500px] "
       src={
-        featuredMedia.media_details?.sizes?.medium?.source_url ||
+        featuredMedia.media_details?.sizes?.large?.source_url ||
         featuredMedia.source_url!
       }
       height={1000}
