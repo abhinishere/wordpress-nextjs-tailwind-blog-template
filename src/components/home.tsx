@@ -32,7 +32,9 @@ export default function Home({ posts }: IHome) {
               <li key={slug} className="py-12">
                 <article>
                   <div className="space-y-4 xl:grid xl:grid-cols-4 xl:items-start xl:space-y-0 xl:space-x-4">
-                    <ThumbnailMedia featuredMediaId={featured_media} />
+                    <Link href={`/${slug}`}>
+                      <ThumbnailMedia featuredMediaId={featured_media} />
+                    </Link>
                     <div className="space-y-5 xl:col-span-3">
                       <div className="space-y-6">
                         <div>

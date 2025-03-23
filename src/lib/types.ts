@@ -61,6 +61,7 @@ export type Author = {
   slug: string;
   link: string;
   avatar_urls: AvatarUrls;
+  description: string;
 };
 
 type MediaDetailsSizes = {

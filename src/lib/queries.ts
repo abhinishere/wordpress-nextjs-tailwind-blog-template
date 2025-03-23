@@ -186,3 +186,24 @@ export async function getFeaturedMediaById(
 
   return featured_media;
 }
+
+export async function getAllAuthors(): Promise<Author[]> {
+  const endpoint = `${baseUrl}/wp-json/wp/v2/users?per_page=100`;
+
+  const res = await fetch(endpoint, {
+    next: {
+      revalidate: revalidateTime,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch authors");
+
+  const users = await res.json();
+
+  // Filter users who have published posts (a sign they are authors)
+  const authors = users.filter(
+    (user: Author) => user?.description || user?.link
+  );
+
+  return authors;
+}
