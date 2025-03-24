@@ -2,7 +2,9 @@ import { Post, Category, Author, MediaObject, Page } from "@/lib/types";
 
 const baseUrl = process.env.WORDPRESS_URL;
 
-const revalidateTime: number = 3600;
+// const revalidateTime: number = 3600;
+
+const revalidateTime: number = 0;
 
 export async function getCategories(): Promise<Category[]> {
   const endpoint = `${baseUrl}/wp-json/wp/v2/categories`;
@@ -17,7 +19,7 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getAllPosts(
   pageNumber: number = 1,
-  perPage = 10,
+  perPage = 15,
   searchTerm: string = "",
   categories: number = 0
 ): Promise<{
@@ -200,10 +202,98 @@ export async function getAllAuthors(): Promise<Author[]> {
 
   const users = await res.json();
 
-  // Filter users who have published posts (a sign they are authors)
   const authors = users.filter(
     (user: Author) => user?.description || user?.link
   );
 
   return authors;
+}
+
+export async function getAllAuthorsWithPosts(
+  page: number = 1,
+  perPage: number = 15
+): Promise<{
+  authors: Author[];
+  authorsPosts: Record<string, Post[]>;
+  totalPagesPerAuthor: Record<string, number>;
+}> {
+  const endpoint = `${baseUrl}/wp-json/wp/v2/users?per_page=100`;
+
+  const res = await fetch(endpoint, { next: { revalidate: revalidateTime } });
+  if (!res.ok) throw new Error("Failed to fetch authors");
+
+  const users: Author[] = await res.json();
+
+  const authorsPosts: Record<string, Post[]> = {};
+  const totalPagesPerAuthor: Record<string, number> = {};
+
+  await Promise.all(
+    users.map(async (user) => {
+      const params = new URLSearchParams({
+        author: user.id.toString(),
+        per_page: perPage.toString(),
+        page: page.toString(),
+        _embed: "true",
+      });
+
+      const postsRes = await fetch(
+        `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`
+      );
+
+      if (!postsRes.ok)
+        throw new Error(`Failed to fetch posts for author: ${user.slug}`);
+
+      const posts = await postsRes.json();
+      authorsPosts[user.slug] = posts;
+
+      totalPagesPerAuthor[user.slug] = parseInt(
+        postsRes.headers.get("X-WP-TotalPages") ?? "1"
+      );
+    })
+  );
+
+  return { authors: users, authorsPosts, totalPagesPerAuthor };
+}
+
+export async function getAuthorBySlug(
+  slug: string,
+  page: number = 1,
+  perPage: number = 15
+): Promise<{ author: Author | null; posts: Post[]; totalPages: number }> {
+  const authorsRes = await fetch(
+    `${baseUrl}/wp-json/wp/v2/users?per_page=100`,
+    {
+      next: { revalidate: revalidateTime },
+    }
+  );
+
+  if (!authorsRes.ok) throw new Error("Failed to fetch authors");
+
+  const authors = await authorsRes.json();
+  const author = authors.find((a: any) => a.slug === slug);
+
+  if (!author) return { author: null, posts: [], totalPages: 0 };
+
+  const params = new URLSearchParams({
+    author: author.id.toString(),
+    per_page: perPage.toString(),
+    page: page.toString(),
+    _embed: "true",
+  });
+
+  const postsRes = await fetch(
+    `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`
+  );
+
+  if (!postsRes.ok)
+    throw new Error(`Failed to fetch posts for author: ${author.slug}`);
+
+  const posts = await postsRes.json();
+  const totalPages = parseInt(postsRes.headers.get("X-WP-TotalPages") ?? "1");
+
+  return {
+    author,
+    posts,
+    totalPages,
+  };
 }

@@ -8,7 +8,7 @@ export const metadata = genPageMetadata({
   description: "Browse by author.",
 });
 
-export default async function CategoriesPage() {
+export default async function AuthorsPage() {
   const authors = await getAllAuthors();
   return (
     <>
@@ -25,7 +25,7 @@ export default async function CategoriesPage() {
               <Link
                 key={a.id}
                 href={`/author/${a.slug}`}
-                className="mt-2 mr-5 mb-2 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 mr-3 text-sm font-medium uppercase"
+                className="mt-2 mr-5 mb-2 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 text-sm font-medium uppercase"
                 dangerouslySetInnerHTML={{ __html: a.name }}
               ></Link>
             );
