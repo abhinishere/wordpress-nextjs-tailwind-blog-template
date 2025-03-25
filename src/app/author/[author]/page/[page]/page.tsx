@@ -1,9 +1,36 @@
+import { genPageMetadata } from "@/app/seo";
 import AuthorLayout from "@/components/layouts/author-layouts/author-layout";
+import siteMetadata from "@/config/site-metadata";
 import { getAllAuthorsWithPosts, getAuthorBySlug } from "@/lib/queries";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
 
 const POSTS_PER_PAGE = 15;
+
+export async function generateMetadata(props: {
+  params: Promise<{ author: string; page: string }>;
+}): Promise<Metadata> {
+  const params = await props.params;
+  const author = decodeURI(params.author);
+  const page = decodeURI(params.page);
+  const pageNumber = parseInt(page);
+
+  const resData = await getAuthorBySlug(author);
+
+  const totalPages = resData.totalPages;
+
+  return genPageMetadata({
+    title: `${resData.author?.name} | Page ${pageNumber} of ${totalPages}`,
+    description: resData.author?.description ?? "",
+    alternates: {
+      canonical: "./",
+      types: {
+        "application/rss+xml": `${siteMetadata.siteUrl}/author/${author}/feed.xml`,
+      },
+    },
+  });
+}
 
 export const generateStaticParams = async () => {
   const { authors, totalPagesPerAuthor } = await getAllAuthorsWithPosts();
