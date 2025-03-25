@@ -5,7 +5,7 @@ import Category from "@/components/category";
 
 export const metadata = genPageMetadata({
   title: "Authors",
-  description: "Browse by author.",
+  description: "Browse articles by author.",
 });
 
 export default async function AuthorsPage() {

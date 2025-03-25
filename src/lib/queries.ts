@@ -274,6 +274,25 @@ export async function getAuthorBySlug(
 
   if (!author) return { author: null, posts: [], totalPages: 0 };
 
+  const firstPageParams = new URLSearchParams({
+    author: author.id.toString(),
+    per_page: perPage.toString(),
+    page: "1",
+    _embed: "true",
+  });
+
+  const firstPageRes = await fetch(
+    `${baseUrl}/wp-json/wp/v2/posts?${firstPageParams.toString()}`
+  );
+
+  if (!firstPageRes.ok) return { author, posts: [], totalPages: 0 };
+
+  const totalPages = parseInt(
+    firstPageRes.headers.get("X-WP-TotalPages") ?? "1"
+  );
+
+  if (page > totalPages || page < 1) return { author, posts: [], totalPages };
+
   const params = new URLSearchParams({
     author: author.id.toString(),
     per_page: perPage.toString(),
@@ -285,15 +304,9 @@ export async function getAuthorBySlug(
     `${baseUrl}/wp-json/wp/v2/posts?${params.toString()}`
   );
 
-  if (!postsRes.ok)
-    throw new Error(`Failed to fetch posts for author: ${author.slug}`);
+  if (!postsRes.ok) return { author, posts: [], totalPages };
 
   const posts = await postsRes.json();
-  const totalPages = parseInt(postsRes.headers.get("X-WP-TotalPages") ?? "1");
 
-  return {
-    author,
-    posts,
-    totalPages,
-  };
+  return { author, posts, totalPages };
 }

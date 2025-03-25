@@ -72,30 +72,28 @@ export default function PostLayout({
               <dd>
                 {author && (
                   <div className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-y-8 xl:space-x-0">
-                    <li
-                      className="flex items-center space-x-2"
-                      key={author.name}
-                    >
-                      {author.avatar_urls && (
-                        <Image
-                          src={
-                            author.avatar_urls[24] ??
-                            author.avatar_urls[48] ??
-                            author.avatar_urls[96]
-                          }
-                          width={38}
-                          height={38}
-                          alt="avatar"
-                          className="h-10 w-10 rounded-full"
-                        />
-                      )}
-                      <dl className="text-sm leading-5 font-medium whitespace-nowrap">
-                        <dt className="sr-only">Name</dt>
-                        <dd className="text-gray-900 dark:text-gray-100">
-                          {author.name}
-                        </dd>
-                        <dt className="sr-only">{author.slug}</dt>
-                        {/* <dd>
+                    <Link key={author.name} href={`/author/${author.slug}`}>
+                      <li className="flex items-center space-x-2">
+                        {author.avatar_urls && (
+                          <Image
+                            src={
+                              author.avatar_urls[24] ??
+                              author.avatar_urls[48] ??
+                              author.avatar_urls[96]
+                            }
+                            width={38}
+                            height={38}
+                            alt="avatar"
+                            className="h-10 w-10 rounded-full"
+                          />
+                        )}
+                        <dl className="text-sm leading-5 font-medium whitespace-nowrap">
+                          <dt className="sr-only">Name</dt>
+                          <dd className="text-gray-900 dark:text-gray-100">
+                            {author.name}
+                          </dd>
+                          <dt className="sr-only">{author.slug}</dt>
+                          {/* <dd>
                           {author.twitter && (
                             <Link
                               href={`/author/${author.slug}`}
@@ -107,8 +105,9 @@ export default function PostLayout({
                             </Link>
                           )}
                         </dd> */}
-                      </dl>
-                    </li>
+                        </dl>
+                      </li>
+                    </Link>
                   </div>
                 )}
               </dd>

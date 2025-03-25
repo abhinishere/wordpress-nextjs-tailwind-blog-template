@@ -1,22 +1,19 @@
 import AuthorLayout from "@/components/layouts/author-layouts/author-layout";
-import { getAllAuthorsWithPosts, getAuthorBySlug } from "@/lib/queries";
+import {
+  getAllAuthors,
+  getAllAuthorsWithPosts,
+  getAuthorBySlug,
+} from "@/lib/queries";
 import { notFound } from "next/navigation";
 
 const POSTS_PER_PAGE = 15;
 
 export const generateStaticParams = async () => {
-  const { authors, totalPagesPerAuthor } = await getAllAuthorsWithPosts();
+  const authors = await getAllAuthors();
 
-  return authors
-    .filter((author) => totalPagesPerAuthor[author.slug] > 0)
-    .flatMap((author) => {
-      const totalPages = totalPagesPerAuthor[author.slug] || 1;
-
-      return Array.from({ length: totalPages }, (_, i) => ({
-        author: encodeURI(author.slug),
-        page: (i + 1).toString(),
-      }));
-    });
+  return authors.map((author) => ({
+    author: encodeURI(author.slug),
+  }));
 };
 
 export default async function AuthorPage(props: {
@@ -44,9 +41,5 @@ export default async function AuthorPage(props: {
 
   console.log(totalPages);
 
-  return (
-    <div>
-      <AuthorLayout author={author} pagination={pagination} posts={posts} />
-    </div>
-  );
+  return <AuthorLayout author={author} pagination={pagination} posts={posts} />;
 }
